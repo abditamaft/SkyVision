@@ -764,6 +764,8 @@ class _SkyTheme {
   final bool showStars;
   final bool showMoon;
   final String timeLabel;
+  final Color mountainSnow; // warna salju di puncak gunung
+  final Color mountainRim;
 
   const _SkyTheme({
     required this.skyTop,
@@ -776,6 +778,8 @@ class _SkyTheme {
     required this.showStars,
     required this.showMoon,
     required this.timeLabel,
+    required this.mountainSnow,
+    required this.mountainRim,
   });
 }
 
@@ -783,85 +787,99 @@ _SkyTheme _getSkyTheme() {
   final hour = DateTime.now().hour;
 
   if (hour >= 5 && hour < 7) {
-    // Fajar / Subuh
+    // Fajar — gunung siluet merah-ungu gelap, puncak disinari jingga
     return const _SkyTheme(
       skyTop: Color(0xFF1A0A2E),
       skyMid: Color(0xFF4A1A3E),
       skyBottom: Color(0xFFFF6B35),
-      mountainDark: Color(0xFF0D0818),
-      mountainMid: Color(0xFF1A0F28),
+      mountainDark: Color(0xFF1A0820), // ← ungu sangat gelap
+      mountainMid: Color(0xFF2A1030), // ← ungu gelap sedikit lebih terang
       starColor: Color(0xFFFFEECC),
       accentGlow: Color(0xFFFF8C42),
+      mountainSnow: Color(
+        0xFFFFD0A0,
+      ), // ← salju berwarna jingga (pantulan fajar)
+      mountainRim: Color(0xFFFF8C42), // ← kontur jingga
       showStars: true,
       showMoon: true,
       timeLabel: 'Fajar',
     );
   } else if (hour >= 7 && hour < 10) {
-    // Pagi
+    // Pagi — gunung biru-gelap, puncak keemasan cahaya pagi
     return const _SkyTheme(
       skyTop: Color(0xFF0B3D6E),
       skyMid: Color(0xFF1B6CA8),
       skyBottom: Color(0xFFFFCC80),
-      mountainDark: Color(0xFF0D1929),
-      mountainMid: Color(0xFF0A1520),
+      mountainDark: Color(0xFF0D2840), // ← biru tua
+      mountainMid: Color(0xFF163550), // ← biru tua lebih terang
       starColor: Color(0x00FFFFFF),
       accentGlow: Color(0xFFFFB347),
+      mountainSnow: Color(0xFFFFF5E0), // ← salju putih hangat
+      mountainRim: Color(0xFFFFCC80), // ← kontur keemasan pagi
       showStars: false,
       showMoon: false,
       timeLabel: 'Pagi',
     );
   } else if (hour >= 10 && hour < 15) {
-    // Siang
+    // Siang — gunung biru-abu, puncak putih bersih
     return const _SkyTheme(
       skyTop: Color(0xFF0066CC),
       skyMid: Color(0xFF2196F3),
       skyBottom: Color(0xFF87CEEB),
-      mountainDark: Color(0xFF1A2744),
-      mountainMid: Color(0xFF152038),
+      mountainDark: Color(0xFF1A3A5C), // ← biru-abu sedang
+      mountainMid: Color(0xFF254A70), // ← biru-abu lebih terang
       starColor: Color(0x00FFFFFF),
       accentGlow: Color(0xFF64B5F6),
+      mountainSnow: Color(0xFFF0F8FF), // ← salju putih bersih
+      mountainRim: Color(0xFF90CAF9), // ← kontur biru langit
       showStars: false,
       showMoon: false,
       timeLabel: 'Siang',
     );
   } else if (hour >= 15 && hour < 18) {
-    // Sore
+    // Sore — gunung siluet gelap, puncak merah-oranye
     return const _SkyTheme(
       skyTop: Color(0xFF1A237E),
       skyMid: Color(0xFFE65100),
       skyBottom: Color(0xFFFF8F00),
-      mountainDark: Color(0xFF0D1117),
-      mountainMid: Color(0xFF1A1A2E),
+      mountainDark: Color(0xFF120A18), // ← hampir hitam (backlit)
+      mountainMid: Color(0xFF1E1020), // ← ungu sangat gelap
       starColor: Color(0x00FFFFFF),
       accentGlow: Color(0xFFFF7043),
+      mountainSnow: Color(0xFFFFAB76), // ← salju jingga (sore)
+      mountainRim: Color(0xFFFF7043), // ← kontur oranye sore
       showStars: false,
       showMoon: false,
       timeLabel: 'Sore',
     );
   } else if (hour >= 18 && hour < 20) {
-    // Senja / Maghrib
+    // Senja — gunung hitam siluet dramatis, rim merah
     return const _SkyTheme(
       skyTop: Color(0xFF0D0D2B),
       skyMid: Color(0xFF6B1E3E),
       skyBottom: Color(0xFFFF4500),
-      mountainDark: Color(0xFF050810),
-      mountainMid: Color(0xFF0A0D1A),
+      mountainDark: Color(0xFF08040E), // ← hitam ungu
+      mountainMid: Color(0xFF100818), // ← ungu pekat
       starColor: Color(0xFFFFEECC),
       accentGlow: Color(0xFFFF6B35),
+      mountainSnow: Color(0xFFFF9060), // ← salju merah-jingga senja
+      mountainRim: Color(0xFFFF4500), // ← kontur merah dramatis
       showStars: true,
       showMoon: false,
       timeLabel: 'Senja',
     );
   } else {
-    // Malam
+    // Malam — gunung hitam pekat, puncak biru bulan
     return const _SkyTheme(
       skyTop: Color(0xFF020408),
       skyMid: Color(0xFF06101E),
       skyBottom: Color(0xFF0D1929),
-      mountainDark: Color(0xFF040810),
-      mountainMid: Color(0xFF060D1A),
+      mountainDark: Color(0xFF040810), // ← hitam biru
+      mountainMid: Color(0xFF060D1A), // ← hitam biru gelap
       starColor: Color(0xFFE8D5A3),
       accentGlow: Color(0xFF1E3A5F),
+      mountainSnow: Color(0xFFBAE6FD), // ← salju biru dingin bulan
+      mountainRim: Color(0xFF1E3A5F), // ← kontur biru malam
       showStars: true,
       showMoon: true,
       timeLabel: 'Malam',
@@ -1724,17 +1742,102 @@ class _MountainBgPainter extends CustomPainter {
       ..close();
     canvas.drawPath(path2, p2);
 
-    // Kontur tipis
+    // Kontur rim light gunung depan
     final linePaint = Paint()
-      ..color = theme.accentGlow.withOpacity(0.12)
-      ..strokeWidth = 0.6
+      ..color = theme.mountainRim.withOpacity(0.20)
+      ..strokeWidth = 0.8
       ..style = PaintingStyle.stroke;
     canvas.drawPath(path2, linePaint);
+
+    // Kontur rim light gunung belakang (lebih redup)
+    final linePaint2 = Paint()
+      ..color = theme.mountainRim.withOpacity(0.10)
+      ..strokeWidth = 0.5
+      ..style = PaintingStyle.stroke;
+    canvas.drawPath(path1, linePaint2);
+
+    // Salju / highlight di puncak-puncak gunung
+    final snowPaint = Paint()
+      ..color = theme.mountainSnow.withOpacity(0.55)
+      ..style = PaintingStyle.fill;
+
+    // Puncak gunung belakang (path1) — 3 puncak utama
+    _drawPeakSnow(
+      canvas,
+      size.width * 0.38,
+      size.height * 0.28,
+      18,
+      10,
+      snowPaint,
+    );
+    _drawPeakSnow(
+      canvas,
+      size.width * 0.65,
+      size.height * 0.20,
+      20,
+      11,
+      snowPaint,
+    );
+    _drawPeakSnow(
+      canvas,
+      size.width * 0.90,
+      size.height * 0.30,
+      14,
+      8,
+      snowPaint,
+    );
+
+    // Puncak gunung depan (path2) — 3 puncak utama
+    final snowPaint2 = Paint()
+      ..color = theme.mountainSnow.withOpacity(0.40)
+      ..style = PaintingStyle.fill;
+    _drawPeakSnow(
+      canvas,
+      size.width * 0.32,
+      size.height * 0.48,
+      14,
+      8,
+      snowPaint2,
+    );
+    _drawPeakSnow(
+      canvas,
+      size.width * 0.60,
+      size.height * 0.42,
+      16,
+      9,
+      snowPaint2,
+    );
+    _drawPeakSnow(
+      canvas,
+      size.width * 0.87,
+      size.height * 0.50,
+      12,
+      7,
+      snowPaint2,
+    );
+  }
+
+  void _drawPeakSnow(
+    Canvas canvas,
+    double px,
+    double py,
+    double w,
+    double h,
+    Paint paint,
+  ) {
+    // Segitiga kecil salju di puncak gunung
+    final path = Path()
+      ..moveTo(px, py)
+      ..lineTo(px - w / 2, py + h)
+      ..lineTo(px + w / 2, py + h)
+      ..close();
+    canvas.drawPath(path, paint);
   }
 
   @override
   bool shouldRepaint(covariant _MountainBgPainter old) =>
-      old.theme.timeLabel != theme.timeLabel;
+      old.theme.timeLabel != theme.timeLabel ||
+      old.theme.mountainDark != theme.mountainDark;
 }
 
 /// Ikon gunung mini untuk card
